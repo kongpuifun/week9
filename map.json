@@ -1,96 +1,37 @@
 {
-  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
-  "width": "container",
-  "height": "container",
-  "params": [
-    {
-      "name": "Year_above",
-      "value": 2005,
-          "bind": {
-            "input": "range",
-            "min": 2005,
-            "max": 2015,
-            "step": 1,
-            "name": "Year: "
-      }
-    }
-  ],
-  "projection": {"type": "equalEarth"},
-  "config":{
-    "background": "rgb(250, 245, 229)"
-  },
-  "layer": [
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/kongpuifun/3179/main/ne_110m.json",
-        "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
-      },
-      "transform": [
-        { "calculate": "'No data in ' + datum.properties.NAME", "as": "information"
-        }
-      ],
-      "mark": {
-        "type": "geoshape",
-         "fill": "#f1986f7e",
-        "stroke": "white",
-        "strokeWidth": 0.5
-      },
-      "encoding": {"tooltip": {"field": "information"}}
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "title": "World Suicide Cases (2000-2016)",
+    "width": 800,
+    "height": 400,
+    "projection": {"type": "equalEarth"},
+    "data": {
+    "url": "https://raw.githubusercontent.com/kongpuifun/3179/main/ne_110m.json",
+    "format": {"type": "topojson", "feature": "ne_110m_admin_0_countries"}
     },
+    "transform": [
     {
-        "data": {
-          "url": "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/7_others/oceans.topojson", 
-          "format": {"type": "topojson", "feature": "oceans"}
-        },
-        "mark": {"type": "geoshape", "fill": "#ceebface"}
+    "lookup": "properties.NAME",
+    "from": {
+    "data": {
+    "url": "https://raw.githubusercontent.com/kongpuifun/3179/main/master.csv"
     },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/kongpuifun/3179/main/ne_110m.json", 
-        "format": {"type": "topojson", "feature": "ne_110m_graticules_30"}
-      },
-      "mark": {"type": "geoshape", "fill": null, "stroke": "#5c5c5c59"}
-    },
-    {
-      "data": {
-        "url": "https://raw.githubusercontent.com/kongpuifun/3179/main/totalsuicides.csv"
-      },
-      "transform": [
-        {
-          "lookup": "country",
-          "from": {
-            "data": {
-              "url": "https://raw.githubusercontent.com/kongpuifun/3179/main/ne_110m.json",
-              "format": {
-                "type": "topojson",
-                "feature": "ne_110m_admin_0_countries"
-              }
-            },
-            "key": "properties.NAME"
-          },
-          "as": "geo"
-        },
-        {"filter": "datum.year == Year_above"}
-      ],
-      "mark": {"type": "geoshape"},
-      "encoding": {
-        "shape": {"field": "geo", "type": "geojson"},
-        "color": {
-          "field": "suicides_no",
-          "type": "quantitative",
-          "scale": {"type": "sqrt", "scheme": "Reds"},
-          "legend": {"title":"Suicide Cases"}
-        },
-        "tooltip": [
-          {"field": "country", "type": "nominal", "title": "Country"},
-          {
-            "field": "suicides_no",
-            "type": "quantitative",
-            "title": "Suicide cases"
-          },
-          {"field": "year", "type": "quantitative", "title": "Year"}
-        ]
-      }
-    }
-  ]
+    "key": "country",
+    "fields": ["suicides_no"]
+}
+},
+{"calculate": "datum.suicides_no + 0.1", "as": "Suicide Cases"}
+],
+"mark": {"type": "geoshape"},
+"encoding": {
+"color": {
+"field": "Suicide Cases",
+"type": "quantitative",
+"scale": {"type": "log"}
+},
+"tooltip": [
+{"field": "properties.NAME", "type": "nominal", "title":
+"country"},
+{"field": "suicides_no", "type": "quantitative"}
+]
+}
 }
