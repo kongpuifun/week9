@@ -6,26 +6,26 @@
   <script src="https://cdn.jsdelivr.net/npm/vega@5.20.2"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-lite@5.1.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/vega-embed@6.17.0"></script>
-  
-  
+
+
   <!-- CSS file -->
-  <link rel="stylesheet" type="text/css" href="styles_10.css" media="all">
+  <link rel="stylesheet" type="text/css" href="styles.css_10" media="all">
   <link rel="stylesheet" type="text/css" href="styles.css" media="all">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@2.1.0/build/grids-responsive-min.css" />
-  
+
 </head>
 <body>
-  
+
 <div id="choropleth_map"></div>
 <div id="scatter_plot"></div>
 
 <script type="text/javascript">
-  var spec1 = "map.json";
+  var spec1 = "json";
   vegaEmbed('#choropleth_map', spec1).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
 
-  var spec2 = "bubble.json";
+  var spec2 = "json_10";
   vegaEmbed('#scatter_plot', spec2).then(function(result) {
     // Access the Vega view instance (https://vega.github.io/vega/docs/api/view/) as result.view
   }).catch(console.error);
